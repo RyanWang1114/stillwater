@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b13e72">
+  <meta name="description" content="A quiet place for your days. A diary stored on your own computer.">
+  <title>Stillwater · Your personal diary</title>
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/extras.css">
+  <link rel="stylesheet" href="/math-symbols.css">
+  <link rel="stylesheet" href="/vendor/katex/katex.min.css">
+  <script src="/vendor/katex/katex.min.js" defer></script>
+  <script src="/equations.js" defer></script>
+  <script src="/math-symbols.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-theme="paper" data-font="serif">
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Main navigation">
+    <a class="brand" href="/" aria-label="Stillwater home"><span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M25 5C11 5 5 11 7 20c9 3 18-2 18-15Z" stroke="currentColor" stroke-width="1.7"/><path d="m6 27 14-15M11 22l-1-8m6 3 7-1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span><span class="brand-name">stillwater</span><span class="brand-caption">A LITTLE SPACE FOR YOU</span></span></a>
+    <button class="primary-button new-entry" data-action="new"><span>＋</span> New entry <kbd>Ctrl J</kbd></button>
+    <nav class="nav-group" id="main-nav"></nav>
+    <div class="nav-label">YOUR NOTEBOOKS <button class="icon-button" data-action="add-notebook" aria-label="Add notebook">＋</button></div>
+    <div id="notebooks-nav"></div>
+    <button class="text-button manage-tags" data-action="manage-tags"># &nbsp; Manage tags</button>
+    <div class="sidebar-bottom"><div class="sidebar-quote">“Pay attention.<br>Be astonished.<br>Tell about it.”<span>MARY OLIVER</span></div><button class="nav-button" data-view="settings"><span data-icon="settings"></span> Settings & backup</button><div class="local-indicator"><span class="status-dot"></span> Stored on this computer</div></div>
+  </aside>
+  <section class="entry-panel" aria-label="Diary entries">
+    <div class="list-heading"><div class="eyebrow" id="list-eyebrow">YOUR PERSONAL COLLECTION</div><div class="list-title-row"><h1 class="list-title" id="list-title">All entries</h1><span class="count" id="entry-count">0</span></div></div>
+    <label class="search-box"><span data-icon="search"></span><input id="search" type="search" placeholder="Find a memory…" aria-label="Search entries"><kbd>Ctrl K</kbd></label>
+    <div class="filter-row"><select id="sort" aria-label="Sort entries"><option value="date">Newest first</option><option value="oldest">Oldest first</option><option value="updated">Last edited</option><option value="title">Title A–Z</option><option value="words">Word count</option></select><button class="icon-button" data-action="filters" aria-label="Filter entries" title="Filter entries"><span data-icon="sliders"></span></button><button class="icon-button" data-action="bulk" aria-label="Select multiple entries" title="Select multiple"><span data-icon="check-square"></span></button></div>
+    <div id="active-filters"></div><div id="bulk-toolbar"></div><div class="entry-list" id="entry-list"></div>
+    <div class="list-bottom" id="list-bottom"></div>
+  </section>
+  <main class="workspace" id="workspace"><div class="empty-state"><p>Opening your diary…</p></div></main>
+</div>
+<dialog id="modal" class="modal"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<input type="file" id="file-input" class="hidden" multiple>
+<input type="file" id="import-input" class="hidden" accept=".json,.txt,.md">
+</body>
+</html>

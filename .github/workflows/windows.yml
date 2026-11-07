@@ -1,0 +1,80 @@
+name: Windows checks and build
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      # pnpm/setup is the supported setup action for pnpm 11+.
+      - name: Set up Node.js and pnpm
+        uses: pnpm/setup@v1
+        with:
+          version: 11.25.0
+          runtime: node@24
+          install: false
+          cache: true
+
+      - name: Install the locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Check math insertion in the desktop editor
+        run: pnpm run test:editor
+
+      - name: Build Windows executables
+        if: github.event_name != 'pull_request'
+        run: pnpm run build:win
+
+      - name: Verify the packaged app contains no diary data
+        if: github.event_name != 'pull_request'
+        run: node --test tests/package-privacy.test.mjs
+
+      - name: Write checksums
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          $files = @(Get-ChildItem -LiteralPath release -Filter *.exe -File)
+          if ($files.Count -eq 0) { throw 'No Windows executables were produced.' }
+          $checksums = foreach ($file in $files) {
+            $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $($file.Name)"
+          }
+          $checksums | Set-Content -LiteralPath release/SHA256SUMS.txt -Encoding utf8
+
+      - name: Upload Windows build artifacts
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stillwater-windows-x64-${{ github.run_number }}
+          path: |
+            release/*.exe
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      # Artifacts are available on the Actions run. Nothing is published to
+      # GitHub Releases, and this workflow has no repository write permission.

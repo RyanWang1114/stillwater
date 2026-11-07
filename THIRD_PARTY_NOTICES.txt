@@ -1,0 +1,15 @@
+Stillwater third-party components
+
+KaTeX 0.19.1
+Source: https://katex.org/
+Distribution: https://registry.npmjs.org/katex/-/katex-0.19.1.tgz
+License: MIT (full license in public/vendor/katex/LICENSE)
+
+Bundled browser assets and fonts support offline equation rendering.
+The JavaScript and WOFF2 fonts are unmodified. The CSS font source lists
+have been reduced to WOFF2 only, matching the bundled font files.
+The npm archive is SHA-512 verified before extracting an explicit asset
+allowlist; its integrity and each bundled asset hash are recorded in
+public/vendor/katex/vendor-manifest.json.
+
+To reproduce: node scripts/vendor-katex.mjs
