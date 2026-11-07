@@ -2,6 +2,12 @@
 
 A diary for Windows that keeps your writing on your computer. Stillwater opens in its own desktop window and works offline, with no account, analytics, or cloud service.
 
+## AI-assisted development
+
+Stillwater was built through **AI-assisted development (vibe coding) with Codex**. I supplied natural-language requirements and feedback from hands-on use; Codex generated and revised the implementation, tests, and Windows packaging. Iterations covered desktop delivery, the interface, mathematical symbols, and LaTeX equation editing.
+
+This project demonstrates using iterative prompting, concrete feedback, and automated tests to develop an app with AI. The technology stack includes **JavaScript, HTML/CSS, Electron, Node.js, SQLite, and KaTeX**. The AI assistance was part of the development process; the finished diary works offline.
+
 ## Run the Windows app
 
 Open `release/Stillwater-0.2.3-Windows-x64.exe` for the portable app, or run `release/Stillwater-0.2.3-Setup-x64.exe` to install it and create Windows shortcuts. Both include their runtime, so you do not need Node.js, a terminal, or a separately opened browser.
